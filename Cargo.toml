@@ -1,0 +1,31 @@
+[package]
+name = "block-client-rs"
+authors = ["Aurora Labs <hello@aurora.dev>"]
+version = "0.1.0"
+edition = "2021"
+readme = "README.md"
+repository = "https://github.com/aurora-is-near/block-client-rs.git"
+description = "Client for blocks API service"
+keywords = ["block", "client", "api", "service", "grpc"]
+publish = false
+license = "CC0-1"
+
+[dependencies]
+anyhow = "1"
+borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.0-2.4.0" }
+chrono = "0.4"
+clap = { version = "4", features = ["derive"] }
+prost = "0.13"
+tonic = { version = "0.12", features = ["channel", "tls"] }
+tokio = { version = "1.39", features = ["macros", "rt-multi-thread", "signal"] }
+
+[build-dependencies]
+tonic-build = "0.12"
+walkdir = "2"
+
+[features]
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
+nursery = "deny"
