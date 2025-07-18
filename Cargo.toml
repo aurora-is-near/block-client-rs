@@ -12,15 +12,15 @@ license = "CC0-1"
 
 [dependencies]
 anyhow = "1"
-borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.16-2.6.3" }
+borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.19-2.7.0-rc.2" }
 chrono = "0.4"
 clap = { version = "4", features = ["derive"] }
 prost = "0.13"
-tonic = { version = "0.12", features = ["channel", "tls"] }
+tonic = { version = "0.13", features = ["channel"] }
 tokio = { version = "1.39", features = ["macros", "rt-multi-thread", "signal"] }
 
 [build-dependencies]
-tonic-build = "0.12"
+tonic-build = "0.13"
 walkdir = "2"
 
 [features]
