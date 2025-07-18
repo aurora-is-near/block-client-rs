@@ -132,6 +132,7 @@ impl From<BlocksRequest> for ReceiveBlocksRequest {
     fn from(value: BlocksRequest) -> Self {
         Self {
             stream_name: value.stream_name,
+            stream_origin: "".to_string(),
             start_policy: value.start_policy.policy(),
             start_target: value.start_policy.target().map(|height| Id {
                 kind: 0, // 0 - whole block
@@ -147,6 +148,7 @@ impl From<BlocksRequest> for ReceiveBlocksRequest {
             delivery_settings: None,
             catchup_policy: 0,
             catchup_delivery_settings: None,
+            cached_zstd_dicts_sha3_hashes: vec![],
         }
     }
 }

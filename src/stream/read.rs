@@ -55,6 +55,7 @@ impl TryFrom<ReceiveBlocksResponse> for BlockMessage {
                 }).ok_or_else(|| anyhow::anyhow!("Received message without payload")),
                 Response::Done(_) => anyhow::bail!("The stream is finished"),
                 Response::Error(e) => anyhow::bail!("Received error: {e:?}"),
+                Response::ZstdDict(_) => anyhow::bail!("The wrong response type received"),
             },
         }
     }
