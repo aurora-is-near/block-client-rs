@@ -17,6 +17,7 @@ pub struct BlocksStream {
 }
 
 impl BlocksStream {
+    #[must_use]
     pub const fn new(stream: Streaming<ReceiveBlocksResponse>) -> Self {
         Self { stream }
     }

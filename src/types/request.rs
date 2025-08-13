@@ -61,18 +61,18 @@ pub struct BlocksRequest {
 
 #[derive(Debug, Default)]
 pub enum StartPolicy {
-    /// Start on earliest available message
+    /// Start on the earliest available message
     #[default]
     StartOnEarliestAvailable,
-    /// Start on latest available message
+    /// Start on the latest available message
     StartOnLatestAvailable,
     /// Start exactly on target, return error if no such target
     StartExactlyOnTarget(u64),
-    /// Start on message which comes exactly after target, return error if no such target
+    /// Start on a message which comes exactly after the target, return error if no such target
     StartExactlyAfterTarget(u64),
-    /// Start on earliest available message that is greater or equal to target
+    /// Start on the earliest available message that is greater or equal to the target
     StartOnClosestToTarget(u64),
-    /// Start on earliest available message that is strictly greater than target
+    /// Start on the earliest available message that is strictly greater than target
     StartOnEarliestAfterTarget(u64),
 }
 
@@ -108,7 +108,7 @@ pub enum StopPolicy {
     Never,
     /// Don't send messages greater than target
     AfterTarget(u64),
-    /// Don't send messages greater or equal to target
+    /// Don't send messages greater or equal to the target
     BeforeTarget(u64),
 }
 impl StopPolicy {
@@ -132,7 +132,7 @@ impl From<BlocksRequest> for ReceiveBlocksRequest {
     fn from(value: BlocksRequest) -> Self {
         Self {
             stream_name: value.stream_name,
-            stream_origin: "".to_string(),
+            stream_origin: String::new(),
             start_policy: value.start_policy.policy(),
             start_target: value.start_policy.target().map(|height| Id {
                 kind: 0, // 0 - whole block

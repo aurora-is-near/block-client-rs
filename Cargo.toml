@@ -2,7 +2,7 @@
 name = "block-client-rs"
 authors = ["Aurora Labs <hello@aurora.dev>"]
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 readme = "README.md"
 repository = "https://github.com/aurora-is-near/block-client-rs.git"
 description = "Client for blocks API service"
@@ -12,15 +12,16 @@ license = "CC0-1"
 
 [dependencies]
 anyhow = "1"
-borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.19-2.7.0-rc.2" }
+borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.20-2.7.0" }
 chrono = "0.4"
 clap = { version = "4", features = ["derive"] }
-prost = "0.13"
-tonic = { version = "0.13", features = ["channel"] }
-tokio = { version = "1.39", features = ["macros", "rt-multi-thread", "signal"] }
+prost = "0.14"
+tonic = { version = "0.14", features = ["channel"] }
+tonic-prost = "0.14"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
 
 [build-dependencies]
-tonic-build = "0.13"
+tonic-prost-build = "0.14"
 walkdir = "2"
 
 [features]
