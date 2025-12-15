@@ -1,6 +1,6 @@
 #![allow(clippy::redundant_pub_crate)]
 use block_client_rs::stream::read::ReadStream;
-use block_client_rs::types::request::{BlocksRequestBuilder, StartPolicy};
+use block_client_rs::types::request::{BlocksRequestBuilder, CatchupPolicy, StartPolicy};
 use block_client_rs::{BlockClient, Config};
 use borealis_nats_client::payloads::near_block::NEARBlock;
 use clap::Parser;
@@ -35,6 +35,7 @@ async fn main() {
     let request = BlocksRequestBuilder::new()
         .with_stream_name("v2_mainnet_near_blocks")
         .with_start_policy(StartPolicy::StartOnLatestAvailable)
+        .with_catchup_policy(CatchupPolicy::CatchupWait)
         .build();
     let mut blocks = BlockClient::new(config).unwrap().get_block_stream(request).await.unwrap();
 

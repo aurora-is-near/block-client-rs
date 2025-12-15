@@ -6,6 +6,7 @@ use crate::types::proto::ReceiveBlocksRequest;
 pub struct BlocksRequestBuilder {
     stream_name: String,
     start_policy: StartPolicy,
+    catchup_policy: CatchupPolicy,
     stop_policy: StopPolicy,
 }
 
@@ -30,6 +31,13 @@ impl BlocksRequestBuilder {
         self
     }
 
+    /// Sets the catchup policy.
+    #[must_use]
+    pub const fn with_catchup_policy(mut self, catchup_policy: CatchupPolicy) -> Self {
+        self.catchup_policy = catchup_policy;
+        self
+    }
+
     /// Sets the stop policy.
     #[must_use]
     pub const fn with_stop_policy(mut self, stop_policy: StopPolicy) -> Self {
@@ -43,6 +51,7 @@ impl BlocksRequestBuilder {
         BlocksRequest {
             stream_name: self.stream_name,
             start_policy: self.start_policy,
+            catchup_policy: self.catchup_policy,
             stop_policy: self.stop_policy,
         }
     }
@@ -55,6 +64,8 @@ pub struct BlocksRequest {
     pub stream_name: String,
     /// Start policy
     pub start_policy: StartPolicy,
+    /// Catchup policy
+    pub catchup_policy: CatchupPolicy,
     /// Stop policy
     pub stop_policy: StopPolicy,
 }
@@ -128,6 +139,28 @@ impl StopPolicy {
     }
 }
 
+/// Defines how service should behave if the start target is not yet available.
+#[derive(Debug, Default)]
+pub enum CatchupPolicy {
+    /// Return an error if the catchup is needed
+    #[default]
+    CatchupPanic,
+    /// Don't send anything until catch up
+    CatchupWait,
+    /// Stream normally from whatever is available before the start target
+    CatchupStream,
+}
+
+impl CatchupPolicy {
+    const fn policy(&self) -> i32 {
+        match self {
+            Self::CatchupPanic => 0,
+            Self::CatchupWait => 1,
+            Self::CatchupStream => 2,
+        }
+    }
+}
+
 impl From<BlocksRequest> for ReceiveBlocksRequest {
     fn from(value: BlocksRequest) -> Self {
         Self {
@@ -146,7 +179,7 @@ impl From<BlocksRequest> for ReceiveBlocksRequest {
                 shard_id: 0, // doesn't work now
             }),
             delivery_settings: None,
-            catchup_policy: 0,
+            catchup_policy: value.catchup_policy.policy(),
             catchup_delivery_settings: None,
             cached_zstd_dicts_sha3_hashes: vec![],
         }

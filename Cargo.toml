@@ -12,7 +12,7 @@ license = "CC0-1"
 
 [dependencies]
 anyhow = "1"
-borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", tag = "1.4.21-2.7.1-rc.1" }
+borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.21-2.10.2" }
 chrono = "0.4"
 clap = { version = "4", features = ["derive"] }
 prost = "0.14"
