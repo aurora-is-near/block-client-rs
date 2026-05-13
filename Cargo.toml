@@ -5,21 +5,28 @@ version = "0.1.3"
 edition = "2024"
 readme = "README.md"
 repository = "https://github.com/aurora-is-near/block-client-rs.git"
-description = "Client for blocks API service"
+description = "Client for the block API service"
 keywords = ["block", "client", "api", "service", "grpc"]
 publish = false
 license = "CC0-1"
 
 [dependencies]
 anyhow = "1"
-borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs", rev = "1.4.21-2.10.2" }
+aurora-refiner-types = { git = "https://github.com/aurora-is-near/borealis-engine-lib.git" }
 chrono = "0.4"
 clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+lz4 = "1"
+num-derive = "0.4"
+num-traits = "0.2"
 prost = "0.14"
+rand = "0.10"
 serde = { version = "1", features = ["derive"] }
+serde_cbor = "0.11"
+serde_json = "1"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
 tonic = { version = "0.14", features = ["channel"] }
 tonic-prost = "0.14"
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }
 
 [build-dependencies]
 tonic-prost-build = "0.14"
@@ -28,6 +35,8 @@ walkdir = "2"
 [features]
 
 [lints.clippy]
-all = "deny"
-pedantic = "deny"
-nursery = "deny"
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+
+missing_errors_doc = "allow"
