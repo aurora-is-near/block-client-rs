@@ -16,6 +16,7 @@ borealis-nats-client = { git = "ssh://git@github.com/aurora-is-near/borealis-rs"
 chrono = "0.4"
 clap = { version = "4", features = ["derive"] }
 prost = "0.14"
+serde = { version = "1", features = ["derive"] }
 tonic = { version = "0.14", features = ["channel"] }
 tonic-prost = "0.14"
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal"] }

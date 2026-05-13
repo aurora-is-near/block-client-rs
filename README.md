@@ -19,6 +19,7 @@ fn main() {
     let config = Config {
         url: "http://producer004.nats.backend.aurora.dev:4300".to_string(),
         token: "auth_token".to_string(),
+        stream_name: "v2_mainnet_near_blocks".to_string(),
         connection_window_size: 64 * 1024 * 1024,
         stream_window_size: 64 * 1024 * 1024,
         request_timeout: 10,
@@ -47,6 +48,7 @@ Caused by:
 ```
 
 To bypass that, you can change `~/.cargo/config.toml` config like this:
+
 ```toml
 [net]
 git-fetch-with-cli = true

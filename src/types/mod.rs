@@ -2,6 +2,7 @@ pub mod proto;
 pub mod request;
 
 /// Message with block payload.
+#[derive(Debug)]
 pub struct BlockMessage {
     /// Height of the block.
     pub height: u64,
@@ -12,6 +13,7 @@ pub struct BlockMessage {
 }
 
 /// Block payload format.
+#[derive(Debug)]
 pub enum BlockPayloadFormat {
     /// JSON -> LZ4 -> CBOR bytes -> borealis envelope (whole blocks)
     NearBlockV2,

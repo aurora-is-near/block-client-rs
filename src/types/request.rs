@@ -1,5 +1,5 @@
 use crate::types::proto::block_message::Id;
-use crate::types::proto::ReceiveBlocksRequest;
+use crate::types::proto::{BlockMessageDeliverySettings, BlockStreamDeliverySettings, ReceiveBlocksRequest};
 
 /// Builder for `BlocksRequest`.
 #[derive(Debug, Default)]
@@ -8,6 +8,7 @@ pub struct BlocksRequestBuilder {
     start_policy: StartPolicy,
     catchup_policy: CatchupPolicy,
     stop_policy: StopPolicy,
+    delivery_settings: Option<DeliverySettings>,
 }
 
 impl BlocksRequestBuilder {
@@ -45,6 +46,13 @@ impl BlocksRequestBuilder {
         self
     }
 
+    /// Delivery settings.
+    #[must_use]
+    pub const fn with_delivery_settings(mut self, delivery_settings: DeliverySettings) -> Self {
+        self.delivery_settings = Some(delivery_settings);
+        self
+    }
+
     /// Builds the `BlocksRequest`.
     #[must_use]
     pub fn build(self) -> BlocksRequest {
@@ -53,6 +61,7 @@ impl BlocksRequestBuilder {
             start_policy: self.start_policy,
             catchup_policy: self.catchup_policy,
             stop_policy: self.stop_policy,
+            delivery_settings: self.delivery_settings,
         }
     }
 }
@@ -68,6 +77,8 @@ pub struct BlocksRequest {
     pub catchup_policy: CatchupPolicy,
     /// Stop policy
     pub stop_policy: StopPolicy,
+    /// Delivery settings
+    pub delivery_settings: Option<DeliverySettings>,
 }
 
 #[derive(Debug, Default)]
@@ -161,6 +172,22 @@ impl CatchupPolicy {
     }
 }
 
+#[derive(Debug, Default)]
+pub struct DeliverySettings {
+    pub exclude_payload: bool,
+    pub allow_compression: i32,
+}
+
+impl From<DeliverySettings> for BlockMessageDeliverySettings {
+    fn from(value: DeliverySettings) -> Self {
+        Self {
+            exclude_payload: value.exclude_payload,
+            allow_compression: value.allow_compression,
+            require_format: None,
+        }
+    }
+}
+
 impl From<BlocksRequest> for ReceiveBlocksRequest {
     fn from(value: BlocksRequest) -> Self {
         Self {
@@ -178,7 +205,12 @@ impl From<BlocksRequest> for ReceiveBlocksRequest {
                 height,
                 shard_id: 0, // doesn't work now
             }),
-            delivery_settings: None,
+            delivery_settings: value.delivery_settings.map(|setting| {
+                BlockStreamDeliverySettings {
+                    filter: None,
+                    content: Some(setting.into()),
+                }
+            }),
             catchup_policy: value.catchup_policy.policy(),
             catchup_delivery_settings: None,
             cached_zstd_dicts_sha3_hashes: vec![],

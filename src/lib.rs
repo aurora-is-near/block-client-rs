@@ -64,7 +64,7 @@ impl BlockClient {
     }
 
     fn create_channel(config: &Config) -> anyhow::Result<tonic::transport::Channel> {
-        tonic::transport::Channel::from_shared(config.url.to_string())
+        tonic::transport::Channel::from_shared(config.url.clone())
             .map(|channel| {
                 channel
                     .timeout(Duration::from_secs(config.request_timeout))
