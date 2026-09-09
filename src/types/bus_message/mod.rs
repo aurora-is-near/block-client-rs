@@ -4,7 +4,7 @@ use payloads::Payload;
 use rand::RngExt;
 use std::time::SystemTime;
 
-mod bus_serde;
+pub mod bus_serde;
 mod compression;
 mod error;
 pub mod payloads;
