@@ -5,7 +5,7 @@ use rand::RngExt;
 use std::time::SystemTime;
 
 pub mod bus_serde;
-mod compression;
+pub mod compression;
 mod error;
 pub mod payloads;
 mod message_type;
