@@ -1,8 +1,6 @@
 #![allow(clippy::redundant_pub_crate)]
 
-use aurora_refiner_types::near_block::NEARBlock;
 use block_client_rs::stream::read::ReadStream;
-use block_client_rs::types::bus_message::BusMessage;
 use block_client_rs::types::request::{BlocksRequestBuilder, CatchupPolicy, DeliverySettings, StartPolicy};
 use block_client_rs::{BlockClient, Config};
 use clap::Parser;
@@ -58,8 +56,6 @@ async fn main() {
                     Ok(msg) => {
                         total_received += 1;
                         let time: chrono::DateTime<chrono::Utc> = std::time::SystemTime::now().into();
-                        let block = BusMessage::<NEARBlock>::deserialize(msg.payload.as_slice()).unwrap();
-                        assert_eq!(block.payload.block.header.height, msg.height);
                         println!("[{time}] received block with height: {}", msg.height);
                     }
                     Err(e) => println!("Error: {e:?}"),

@@ -1,4 +1,3 @@
-pub mod bus_message;
 pub mod proto;
 pub mod request;
 
